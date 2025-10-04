@@ -203,7 +203,7 @@ class LLMScraper:
                 
                 "theme": "A concise theme string that best categorizes this publication. Choose from: Microgravity Effects, Space Radiation, Bone & Muscle Health, Cardiovascular System, Immune System, Plant Biology, Cell Biology, Genetics & Genomics, Countermeasures, Technology Development, Mission Planning, Health Monitoring. Be specific and descriptive (e.g., 'Microgravity Effects on Bone Health' or 'Space Radiation Genetics').",
                 
-                "keywords": "A list of 5-8 relevant keywords that describe this publication. If keywords are already provided, use them as a base and add any missing important terms. If no keywords are available, generate appropriate keywords based on the content. Focus on scientific terms, biological systems, space-related concepts, and research methods. Return as a JSON array of strings."
+                "keywords": "A list of 5-8 relevant keywords that describe this publication. If keywords are already provided in the input, use those exact keywords. If no keywords are available, generate appropriate keywords based on the content. Focus on scientific terms, biological systems, space-related concepts, and research methods. Return as a JSON array of strings."
             }}
             
             Return ONLY valid JSON, no additional text or explanations.
@@ -324,13 +324,13 @@ class LLMScraper:
                 theme = analysis["theme"]
                 generated_keywords = analysis["keywords"]
 
-                # Use generated keywords if original keywords are empty, otherwise combine them
+                # Use original keywords if available, otherwise use generated keywords
                 original_keywords = data.get("keywords", [])
                 if original_keywords:
-                    # Combine original and generated keywords, removing duplicates
-                    all_keywords = list(set(original_keywords + generated_keywords))
+                    # Use original keywords as-is (they're already provided by the publication)
+                    all_keywords = original_keywords
                 else:
-                    # Use only generated keywords if no original keywords
+                    # Use generated keywords only if no original keywords
                     all_keywords = generated_keywords
 
                 return PublicationData(
