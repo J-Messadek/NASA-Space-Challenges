@@ -1,6 +1,14 @@
 # Basic Python dependencies for NASA Hackathon project
 # Add your project dependencies here
 
+# Core dependencies
+pandas>=2.0.0           # For CSV processing
+requests>=2.31.0        # For HTTP requests
+beautifulsoup4>=4.12.0  # For HTML parsing
+playwright>=1.40.0      # For web scraping
+google-generativeai>=0.3.0  # For Gemini AI
+python-dotenv>=1.0.0    # For environment variables
+
 # Development dependencies
 watchdog>=2.1.0  # For auto-reloading during development
 black>=22.0.0    # Code formatter (like Prettier for Python)
