@@ -1,0 +1,9 @@
+# Basic Python dependencies for NASA Hackathon project
+# Add your project dependencies here
+
+# Development dependencies
+watchdog>=2.1.0  # For auto-reloading during development
+black>=22.0.0    # Code formatter (like Prettier for Python)
+isort>=5.10.0    # Import sorter
+flake8>=4.0.0    # Code linter
+
