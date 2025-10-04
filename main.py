@@ -9,9 +9,37 @@ from pathlib import Path
 
 from config import CSV_PATH, GOOGLE_AI_API_KEY, OUTPUT_PATH
 from llm_scraper import LLMScraper
+from simple_semantic_search import load_embeddings, semantic_search
 
 # Add current directory to path for imports
 sys.path.append(str(Path(__file__).parent))
+
+
+def demo_semantic_search():
+    """Demo semantic search functionality"""
+    try:
+        # Load publications and embeddings
+        publications, embeddings = load_embeddings()
+
+        if not publications:
+            print("No embeddings found. Run: python convert_to_embeddings.py")
+            return
+
+        # Demo search
+        query = "bone loss in space"
+        print(f"Searching for: '{query}'")
+        results = semantic_search(
+            query, publications, embeddings, GOOGLE_AI_API_KEY, limit=3
+        )
+
+        print("Top results:")
+        for i, result in enumerate(results, 1):
+            print(
+                f"  {i}. {result['title'][:60]}... (Score: {result['similarity_score']})"
+            )
+
+    except Exception as e:
+        print(f"Semantic search demo error: {e}")
 
 
 def main():
@@ -40,6 +68,13 @@ def main():
     try:
         # Initialize scraper
         scraper = LLMScraper()
+
+        # Demo semantic search if publications exist
+        if Path(OUTPUT_PATH).exists():
+            print("\n🧠 Testing Semantic Search...")
+            demo_semantic_search()
+
+        return
 
         # Process all publications
         results = scraper.process_publications_csv(

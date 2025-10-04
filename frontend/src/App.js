@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, ExternalLink, Users, Calendar, BookOpen, Target, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, ExternalLink, Users, Calendar, BookOpen, Target, Tag, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
 import './App.css';
 
 function App() {
@@ -11,6 +11,11 @@ function App() {
   const [journalFilter, setJournalFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
   const [authorFilter, setAuthorFilter] = useState('');
+  
+  // Search mode state
+  const [searchMode, setSearchMode] = useState('regular'); // 'regular' or 'semantic'
+  const [semanticResults, setSemanticResults] = useState([]);
+  const [semanticLoading, setSemanticLoading] = useState(false);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,7 +110,13 @@ function App() {
   const authors = [...new Set(publications.flatMap(pub => pub.authors).filter(Boolean))].sort();
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    // If in semantic mode, perform semantic search
+    if (searchMode === 'semantic') {
+      performSemanticSearch(value);
+    }
   };
 
   const handleThemeFilterChange = (e) => {
@@ -130,6 +141,42 @@ function App() {
     setJournalFilter('');
     setYearFilter('');
     setAuthorFilter('');
+  };
+
+  // Simple semantic search function
+  const performSemanticSearch = async (query) => {
+    if (!query.trim()) {
+      setSemanticResults([]);
+      return;
+    }
+
+    setSemanticLoading(true);
+    try {
+      // Call your Python backend directly
+      const response = await fetch('http://localhost:8000/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query,
+          limit: 20
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSemanticResults(data.results || []);
+      } else {
+        console.error('Semantic search failed');
+        setSemanticResults([]);
+      }
+    } catch (error) {
+      console.error('Semantic search error:', error);
+      setSemanticResults([]);
+    } finally {
+      setSemanticLoading(false);
+    }
   };
 
   // Pagination calculations
@@ -165,6 +212,22 @@ function App() {
               <div className="logo-icon">🚀</div>
               NASA Space Biology Publications
             </div>
+            <div className="search-mode-toggle">
+              <button
+                className={`mode-btn ${searchMode === 'regular' ? 'active' : ''}`}
+                onClick={() => setSearchMode('regular')}
+              >
+                <Search size={16} />
+                Regular Search
+              </button>
+              <button
+                className={`mode-btn ${searchMode === 'semantic' ? 'active' : ''}`}
+                onClick={() => setSearchMode('semantic')}
+              >
+                <Brain size={16} />
+                Semantic Search
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -177,7 +240,10 @@ function App() {
               <Search size={20} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
               <input
                 type="text"
-                placeholder="Search publications by title, authors, keywords, or content..."
+                placeholder={searchMode === 'semantic' ? 
+                  "Search by meaning (e.g., 'bone loss in space')..." : 
+                  "Search publications by title, authors, keywords, or content..."
+                }
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="search-input"
@@ -241,21 +307,62 @@ function App() {
 
         {/* Publications List */}
         <section className="publications-container">
-          {filteredPublications.length === 0 ? (
-            <div className="empty-state">
-              <h3>No publications found</h3>
-              <p>Try adjusting your search terms or filters to find more results.</p>
-            </div>
-          ) : (
+          {searchMode === 'semantic' ? (
+            // Semantic search results
             <>
-              <div className="publications-grid">
-                {currentPublications.map((publication) => (
-                  <PublicationCard 
-                    key={publication.index} 
-                    publication={publication}
-                  />
-                ))}
-              </div>
+              {semanticLoading ? (
+                <div className="loading">
+                  <h3>Searching with AI...</h3>
+                  <p>Finding semantically similar publications...</p>
+                </div>
+              ) : semanticResults.length === 0 ? (
+                <div className="empty-state">
+                  <h3>No semantic results found</h3>
+                  <p>Try searching for concepts like "bone loss in space" or "microgravity effects".</p>
+                </div>
+              ) : (
+                <>
+                  <div className="search-mode-indicator">
+                    <Brain size={20} />
+                    <span>Semantic Search Results ({semanticResults.length})</span>
+                  </div>
+                  <div className="publications-grid">
+                    {semanticResults.map((publication) => (
+                      <PublicationCard 
+                        key={publication.index} 
+                        publication={publication}
+                        showSimilarity={true}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            // Regular search results
+            <>
+              {filteredPublications.length === 0 ? (
+                <div className="empty-state">
+                  <h3>No publications found</h3>
+                  <p>Try adjusting your search terms or filters to find more results.</p>
+                </div>
+              ) : (
+                <>
+                  <div className="publications-grid">
+                    {currentPublications.map((publication) => (
+                      <PublicationCard 
+                        key={publication.index} 
+                        publication={publication}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+          
+          {searchMode === 'regular' && filteredPublications.length > 0 && (
+            <>
               
               {/* Pagination */}
               {totalPages > 1 && (
@@ -292,7 +399,7 @@ function App() {
 }
 
 // Publication Card Component
-function PublicationCard({ publication }) {
+function PublicationCard({ publication, showSimilarity = false }) {
   const formatAuthors = (authors) => {
     if (!authors || authors.length === 0) return 'Unknown Authors';
     if (authors.length <= 3) return authors.join(', ');
@@ -312,7 +419,14 @@ function PublicationCard({ publication }) {
     <article className="publication-card">
       <div className="publication-header">
         <h2 className="publication-title">{publication.title}</h2>
-        <div className="publication-theme">{publication.theme}</div>
+        <div className="publication-theme-container">
+          <div className="publication-theme">{publication.theme}</div>
+          {showSimilarity && publication.similarity_score && (
+            <div className="similarity-score">
+              {Math.round(publication.similarity_score * 100)}% match
+            </div>
+          )}
+        </div>
       </div>
       
       <div className="publication-meta">
