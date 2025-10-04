@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NASA Space Biology Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>NASA Space Biology Dashboard</h1>
+
+    <!-- Barre de filtres -->
+    <div id="filters">
+      <input
+        type="text"
+        id="filterKeyword"
+        placeholder="Rechercher par mot-clé"
+      />
+      <select id="filterTheme">
+        <option value="">-- Thème --</option>
+      </select>
+      <select id="filterAuthor">
+        <option value="">-- Auteur --</option>
+      </select>
+      <select id="filterYear">
+        <option value="">-- Année --</option>
+      </select>
+      <select id="sortArticles">
+        <option value="">-- Trier par --</option>
+        <option value="year_desc">Année (récent → ancien)</option>
+        <option value="year_asc">Année (ancien → récent)</option>
+        <option value="title_asc">Titre (A → Z)</option>
+        <option value="author_asc">Auteur (A → Z)</option>
+      </select>
+    </div>
+
+    <!-- Conteneur des articles -->
+    <div id="articles"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
