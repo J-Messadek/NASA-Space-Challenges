@@ -1,43 +1,75 @@
-# NASA Hackathon Project - LLM Scraper
+# NASA Space Biology Publications Platform
 
-A Python project for the NASA Hackathon featuring an LLM-powered scraper that extracts structured data from NASA Space Biology publications using Google's Gemini AI.
+A comprehensive platform for exploring NASA Space Biology publications featuring semantic search, knowledge graph visualization, and advanced analytics.
 
 ## Features
 
-- **LLM-Powered Scraping**: Uses Google Gemini to extract structured data from publication webpages
-- **Comprehensive Data Extraction**: Extracts title, authors, abstract, headings, DOI, publication date, journal, and keywords
-- **Robust Web Scraping**: Uses Playwright for reliable webpage content extraction
-- **Batch Processing**: Processes all 608 NASA Space Biology publications with progress tracking
-- **Error Handling**: Includes retry logic and graceful error handling
-- **JSON Output**: Saves extracted data in structured JSON format
+### 🔍 **Semantic Search**
+- **AI-Powered Search**: Uses Google Gemini embeddings for semantic similarity search
+- **Smart Fallback**: Automatic semantic search when keyword search returns no results
+- **High-Quality Results**: Only returns results with 80%+ similarity scores
+- **Real-time Search**: Fast keyword search with intelligent semantic enhancement
+
+### 📊 **Knowledge Graph**
+- **Interactive Visualization**: Explore relationships between authors, publications, and themes
+- **Network Analysis**: View collaboration networks and research connections
+- **Centrality Analysis**: Identify key researchers and influential publications
+- **Dynamic Filtering**: Search and filter nodes in real-time
+
+### 📈 **Analytics Dashboard**
+- **Publication Statistics**: Comprehensive overview of research trends
+- **Author Analysis**: Research output and collaboration patterns
+- **Theme Distribution**: Visual breakdown of research areas
+- **Impact Metrics**: Publication and citation analysis
+
+### 🚀 **Modern Web Interface**
+- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Real-time Updates**: Live search results and graph interactions
+- **Intuitive Navigation**: Easy switching between search, graph, and analytics
+- **Performance Optimized**: Fast loading and smooth interactions
 
 ## Quick Start
 
-### 1. Automated Setup
+### 1. Environment Setup
 ```bash
-# Run the setup script (installs dependencies and configures environment)
-python setup.py
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-### 2. Get Google AI API Key
+### 2. Configure Environment Variables
+Create a `.env` file with your API keys:
+```bash
+# Google AI API Key for semantic search
+GOOGLE_AI_API_KEY=your-google-ai-api-key-here
+
+# API URL for frontend (optional - defaults to localhost:5000)
+REACT_APP_API_URL=http://localhost:5000
+```
+
+### 3. Get Google AI API Key
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Create a new API key
-3. Add it to your `.env` file:
+3. Add it to your `.env` file
+
+### 4. Start the Application
 ```bash
-GOOGLE_AI_API_KEY=your-actual-api-key-here
+# Start the backend API server
+python app.py
+
+# In a new terminal, start the frontend
+cd frontend
+npm install
+npm start
 ```
 
-### 3. Test the Setup
-```bash
-# Run tests to verify everything is working
-python test_scraper.py
-```
-
-### 4. Run the Scraper
-```bash
-# Start the interactive scraper
-python main.py
-```
+### 5. Access the Platform
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **API Health Check**: http://localhost:5000/api/health
 
 ## Manual Setup (Alternative)
 
@@ -110,29 +142,81 @@ The scraper generates JSON files with the following structure:
 ## Project Structure
 ```
 NASA-Hackathon/
-├── main.py                 # Main application with interactive menu
-├── llm_scraper.py         # Core LLM scraper implementation
-├── config.py              # Configuration settings
-├── setup.py               # Automated setup script
-├── test_scraper.py        # Test suite
-├── requirements.txt       # Python dependencies
-├── pyproject.toml        # Code formatting configuration
-├── README.md             # This file
-├── .env                  # Environment variables (create this)
-├── dev-tools/            # Development utilities
-│   ├── __init__.py
-│   └── dev_server.py     # Development environment
-└── SB_publications-main/ # NASA Space Biology publications data
-    ├── README.md
-    └── SB_publication_PMC.csv  # 608 publications since 2010
+├── app.py                    # Main Flask API server
+├── simple_semantic_search.py # Semantic search implementation
+├── embeddings.json          # Pre-generated embeddings for semantic search
+├── nasa_space_biology_publications.json # Processed publications data
+├── requirements.txt         # Python dependencies
+├── .env                     # Environment variables (create this)
+├── frontend/                # React frontend application
+│   ├── src/
+│   │   ├── App.js          # Main application component
+│   │   ├── components/
+│   │   │   ├── GraphVisualization.js # Knowledge graph component
+│   │   │   └── GraphAnalysis.js     # Analytics dashboard
+│   │   └── .env            # Frontend environment variables
+│   └── package.json        # Frontend dependencies
+├── scripts/                 # Data processing scripts
+│   ├── build_knowledge_graph.py # Knowledge graph builder
+│   ├── llm_scraper.py      # Publication scraper
+│   └── simple_semantic_search.py # Semantic search utilities
+├── data/                    # Data files
+│   ├── knowledge_graph/    # Knowledge graph data
+│   └── embeddings.json     # Semantic search embeddings
+└── SB_publications-main/   # Source publication data
+    └── SB_publication_PMC.csv
 ```
+
+## API Configuration
+
+### Environment Variables
+The application uses environment variables for configuration:
+
+```bash
+# Required: Google AI API Key for semantic search
+GOOGLE_AI_API_KEY=your-google-ai-api-key-here
+
+# Optional: API URL for frontend (defaults to localhost:5000)
+REACT_APP_API_URL=http://localhost:5000
+```
+
+### Changing API URLs
+To use a different backend server:
+
+1. **Update the .env file:**
+   ```bash
+   REACT_APP_API_URL=https://your-api-server.com
+   ```
+
+2. **Copy to frontend:**
+   ```bash
+   cp .env frontend/.env
+   ```
+
+3. **Restart the frontend:**
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+### API Endpoints
+- `GET /api/health` - Health check
+- `GET /api/graph/statistics` - Graph statistics
+- `GET /api/graph/data` - Complete graph data
+- `GET /api/graph/centrality` - Centrality analysis
+- `GET /api/graph/search` - Graph search
+- `POST /api/search/semantic` - Semantic search
 
 ## Development
 
 ### Development Mode
 ```bash
-# Start development environment (auto-reload + auto-format + linting)
-python dev-tools/dev_server.py
+# Start backend in development mode
+python app.py
+
+# Start frontend in development mode
+cd frontend
+npm start
 ```
 
 ### Code Quality

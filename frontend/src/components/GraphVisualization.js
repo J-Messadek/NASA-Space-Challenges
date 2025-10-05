@@ -61,7 +61,8 @@ const GraphVisualization = () => {
       setError(null);
       
       // Load actual graph data from the API - no fallback data
-      const response = await fetch('http://localhost:5000/api/graph/data');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/graph/data`);
       if (response.ok) {
         const data = await response.json();
         
@@ -101,7 +102,8 @@ const GraphVisualization = () => {
   const loadAuthorNetwork = async (authorName) => {
     try {
       // Get the author's collaboration network from the backend
-      const response = await fetch(`http://localhost:5000/api/graph/author/${encodeURIComponent(authorName)}/collaboration-network?depth=2`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/graph/author/${encodeURIComponent(authorName)}/collaboration-network?depth=2`);
       if (response.ok) {
         const data = await response.json();
         const network = data.data;
@@ -150,7 +152,8 @@ const GraphVisualization = () => {
   const loadAuthorDirectConnections = async (authorName) => {
     try {
       // Get the author's direct information
-      const authorResponse = await fetch(`http://localhost:5000/api/graph/author/${encodeURIComponent(authorName)}`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const authorResponse = await fetch(`${apiUrl}/api/graph/author/${encodeURIComponent(authorName)}`);
       if (authorResponse.ok) {
         const authorData = await authorResponse.json();
         const authorInfo = authorData.data;
@@ -328,7 +331,8 @@ const GraphVisualization = () => {
 
   const loadGraphStatistics = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/graph/statistics');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/graph/statistics`);
       if (response.ok) {
         const data = await response.json();
         setGraphStats(data.data);
@@ -368,7 +372,8 @@ const GraphVisualization = () => {
 
     try {
       setIsSearching(true);
-      const response = await fetch(`http://localhost:5000/api/graph/search?q=${encodeURIComponent(query)}&limit=10`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/graph/search?q=${encodeURIComponent(query)}&limit=10`);
       
       if (response.ok) {
         const data = await response.json();
@@ -487,7 +492,8 @@ const GraphVisualization = () => {
   const handleNodeClick = async (nodeId) => {
     try {
       // Determine node type and fetch appropriate data
-      const searchResponse = await fetch(`http://localhost:5000/api/graph/search?q=${encodeURIComponent(nodeId)}&limit=1`);
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      const searchResponse = await fetch(`${apiUrl}/api/graph/search?q=${encodeURIComponent(nodeId)}&limit=1`);
       if (searchResponse.ok) {
         const searchData = await searchResponse.json();
         if (searchData.data.results.length > 0) {
@@ -495,7 +501,7 @@ const GraphVisualization = () => {
           
           // If it's an author, fetch detailed author information
           if (node.type === 'author') {
-            const authorResponse = await fetch(`http://localhost:5000/api/graph/author/${encodeURIComponent(node.label)}`);
+            const authorResponse = await fetch(`${apiUrl}/api/graph/author/${encodeURIComponent(node.label)}`);
             if (authorResponse.ok) {
               const authorData = await authorResponse.json();
               const authorInfo = authorData.data;
