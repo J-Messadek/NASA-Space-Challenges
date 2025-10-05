@@ -13,7 +13,12 @@ const GraphVisualization = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [searchSummary, setSearchSummary] = useState(null);
+  const [searchSummary, setSearchSummary] = useState({
+    query: "",
+    totalFound: 0,
+    typeBreakdown: {},
+    topResults: []
+  });
   const [graphStats, setGraphStats] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     statistics: true,
@@ -56,7 +61,7 @@ const GraphVisualization = () => {
       setError(null);
       
       // Load actual graph data from the API - no fallback data
-      const response = await fetch('http://localhost:5000/api/graph/export');
+      const response = await fetch('http://localhost:5000/api/graph/data');
       if (response.ok) {
         const data = await response.json();
         
@@ -339,7 +344,12 @@ const GraphVisualization = () => {
     if (!query.trim()) {
       setSearchResults([]);
       setShowSearchResults(false);
-      setSearchSummary(null);
+      setSearchSummary({
+        query: "",
+        totalFound: 0,
+        typeBreakdown: {},
+        topResults: []
+      });
       return;
     }
 
@@ -347,7 +357,12 @@ const GraphVisualization = () => {
     if (query.trim().length < 2) {
       setSearchResults([]);
       setShowSearchResults(false);
-      setSearchSummary(null);
+      setSearchSummary({
+        query: query,
+        totalFound: 0,
+        typeBreakdown: {},
+        topResults: []
+      });
       return;
     }
 
@@ -368,13 +383,23 @@ const GraphVisualization = () => {
         console.error('Search failed with status:', response.status);
         setSearchResults([]);
         setShowSearchResults(false);
-        setSearchSummary(null);
+        setSearchSummary({
+          query: query,
+          totalFound: 0,
+          typeBreakdown: {},
+          topResults: []
+        });
       }
     } catch (error) {
       console.error('Error searching graph:', error);
       setSearchResults([]);
       setShowSearchResults(false);
-      setSearchSummary(null);
+      setSearchSummary({
+        query: query,
+        totalFound: 0,
+        typeBreakdown: {},
+        topResults: []
+      });
     } finally {
       setIsSearching(false);
     }
@@ -423,10 +448,6 @@ const GraphVisualization = () => {
     if (e.key === 'Enter' && searchResults.length > 0) {
       // Select the first search result
       const firstResult = searchResults[0];
-      handleNodeClick(firstResult.id);
-      setShowSearchResults(false);
-      setSearchQuery('');
-      setSearchResults([]);
       
       // Focus on the selected node (only if it exists)
       if (networkRef.current) {
@@ -439,14 +460,27 @@ const GraphVisualization = () => {
               easingFunction: "easeInOutQuad"
             }
           });
+          networkRef.current.selectNodes([firstResult.id]);
+          
+          // Also trigger the node click to show details
+          handleNodeClick(firstResult.id);
         } else {
           console.log(`Node ${firstResult.id} not found in current graph view`);
         }
       }
+      
+      // Keep the search results visible
+      setShowSearchResults(false);
     } else if (e.key === 'Escape') {
       setShowSearchResults(false);
       setSearchQuery('');
       setSearchResults([]);
+      setSearchSummary({
+        query: "",
+        totalFound: 0,
+        typeBreakdown: {},
+        topResults: []
+      });
     }
   };
 
@@ -597,10 +631,6 @@ const GraphVisualization = () => {
   return (
     <div className="graph-visualization">
       <div className="graph-header">
-        <h2>
-          <Network size={24} />
-          NASA Space Biology Knowledge Graph
-        </h2>
         <div className="header-search">
           <div className="search-container">
             {isSearching ? (
@@ -623,7 +653,12 @@ const GraphVisualization = () => {
                   setSearchQuery('');
                   setSearchResults([]);
                   setShowSearchResults(false);
-                  setSearchSummary(null);
+                  setSearchSummary({
+                    query: "",
+                    totalFound: 0,
+                    typeBreakdown: {},
+                    topResults: []
+                  });
                 }}
               >
                 ×
@@ -639,15 +674,12 @@ const GraphVisualization = () => {
                   key={result.id} 
                   className={`search-result-item ${selectedNode && selectedNode.id === result.id ? 'selected' : ''}`}
                   onClick={async () => {
-                    await handleNodeClick(result.id);
-                    setShowSearchResults(false);
-                    setSearchQuery(''); // Clear the search input
-                    setSearchResults([]); // Clear search results
-                    // Focus on the selected node in the graph (only if it exists)
+                    // Just focus on the node without changing the graph view
                     if (networkRef.current) {
                       // Check if the node exists in the current graph
                       const nodeExists = graphData && graphData.nodes.some(node => node.id === result.id);
                       if (nodeExists) {
+                        // Focus and select the node
                         networkRef.current.focus(result.id, {
                           scale: 1.2,
                           animation: {
@@ -655,10 +687,17 @@ const GraphVisualization = () => {
                             easingFunction: "easeInOutQuad"
                           }
                         });
+                        networkRef.current.selectNodes([result.id]);
+                        
+                        // Also trigger the node click to show details
+                        await handleNodeClick(result.id);
                       } else {
                         console.log(`Node ${result.id} not found in current graph view`);
                       }
                     }
+                    
+                    // Keep the search results visible
+                    setShowSearchResults(false);
                   }}
                 >
                   <div className="result-icon">
@@ -990,7 +1029,7 @@ const GraphVisualization = () => {
         )}
 
         {/* Right Sidebar - Search Summary */}
-        {searchSummary && searchSummary.totalFound > 0 && (
+        {searchSummary && (
           <div className="right-sidebar">
             <div className="node-details-card">
               <div className="card-header">
@@ -1013,7 +1052,7 @@ const GraphVisualization = () => {
                 <div className="detail-section">
                   <h4>Search Query</h4>
                   <div className="search-query-display">
-                    <span className="query-text">"{searchSummary.query}"</span>
+                    <span className="query-text">"{searchSummary.query || 'No search yet'}"</span>
                   </div>
                 </div>
 
@@ -1033,7 +1072,7 @@ const GraphVisualization = () => {
                   </div>
                 </div>
 
-                {Object.keys(searchSummary.typeBreakdown).length > 0 && (
+                {Object.keys(searchSummary.typeBreakdown).length > 0 ? (
                   <div className="detail-section">
                     <h4>Results by Type</h4>
                     <div className="type-breakdown">
@@ -1049,23 +1088,68 @@ const GraphVisualization = () => {
                       ))}
                     </div>
                   </div>
+                ) : (
+                  <div className="detail-section">
+                    <h4>Results by Type</h4>
+                    <div className="no-results">
+                      <p>Start typing to search the knowledge graph</p>
+                    </div>
+                  </div>
                 )}
 
-                {searchSummary.topResults.length > 0 && (
+                {searchSummary.topResults.length > 0 ? (
                   <div className="detail-section">
                     <h4>Top Results</h4>
                     <div className="top-results-list">
                       {searchSummary.topResults.map((result, index) => (
-                        <div key={result.id} className="result-preview-item">
+                        <div 
+                          key={result.id} 
+                          className="result-preview-item clickable-result"
+                          onClick={() => handleNodeClick(result.id)}
+                        >
                           <div className="result-preview-icon">
                             {getNodeTypeIcon(result.type)}
                           </div>
                           <div className="result-preview-content">
                             <div className="result-preview-label">{result.label}</div>
                             <div className="result-preview-type">{result.type}</div>
+                            {result.type === 'publication' && result.properties?.url && (
+                              <div className="result-preview-link">
+                                <a 
+                                  href={result.properties.url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="external-link"
+                                >
+                                  View Publication →
+                                </a>
+                              </div>
+                            )}
                           </div>
                         </div>
                       ))}
+                    </div>
+                    
+                    {searchSummary.totalFound > 3 && (
+                      <div className="view-all-results">
+                        <button 
+                          className="view-all-btn"
+                          onClick={() => {
+                            setShowSearchResults(true);
+                            setSearchSummary(null);
+                          }}
+                        >
+                          View All {searchSummary.totalFound} Results →
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="detail-section">
+                    <h4>Top Results</h4>
+                    <div className="no-results">
+                      <p>No results yet. Try searching for authors, publications, themes, or keywords.</p>
                     </div>
                   </div>
                 )}

@@ -406,9 +406,48 @@ def get_centrality_measures():
         return jsonify({'error': 'Failed to calculate centrality measures'}), 500
 
 
+@app.route('/api/graph/data', methods=['GET'])
+def get_graph_data():
+    """Get the complete graph data as JSON for frontend consumption"""
+    if not kg:
+        return jsonify({'error': 'Knowledge graph not loaded'}), 500
+    
+    try:
+        # Convert the graph to JSON format
+        nodes = []
+        for node_id, node_data in kg.graph.nodes(data=True):
+            nodes.append({
+                'id': node_id,
+                'label': node_data.get('label', ''),
+                'type': node_data.get('node_type', ''),
+                'weight': node_data.get('weight', 1.0),
+                'properties': node_data.get('properties', {})
+            })
+        
+        edges = []
+        for source, target, edge_data in kg.graph.edges(data=True):
+            edges.append({
+                'source': source,
+                'target': target,
+                'relationship_type': edge_data.get('relationship_type', ''),
+                'weight': edge_data.get('weight', 1.0),
+                'properties': edge_data.get('properties', {})
+            })
+        
+        return jsonify({
+            'success': True,
+            'nodes': nodes,
+            'edges': edges,
+            'statistics': kg.statistics
+        })
+    except Exception as e:
+        logger.error(f"Error getting graph data: {e}")
+        return jsonify({'error': 'Failed to get graph data'}), 500
+
+
 @app.route('/api/graph/export', methods=['GET'])
 def export_graph():
-    """Export the complete graph data"""
+    """Export the complete graph data as a downloadable file"""
     if not kg:
         return jsonify({'error': 'Knowledge graph not loaded'}), 500
     

@@ -3,7 +3,7 @@
 .graph-visualization {
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  padding: 15px 10px;
 }
 
 .graph-header {
@@ -35,19 +35,19 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 25px;
-  padding: 12px 20px;
+  padding: 14px 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
 }
 
 .header-search .search-icon {
   color: #667eea;
-  margin-right: 12px;
+  margin-right: 16px;
 }
 
 .header-search .search-loading {
   color: #667eea;
-  margin-right: 12px;
+  margin-right: 16px;
   font-size: 20px;
   animation: spin 1s linear infinite;
 }
@@ -65,6 +65,7 @@
   font-size: 16px;
   color: #333;
   padding: 0;
+  padding-left: 20px;
 }
 
 .header-search .search-input::placeholder {
@@ -169,21 +170,23 @@
 
 .graph-container {
   display: flex;
-  gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
+  gap: 15px;
+  width: 100%;
+  margin: 0 20px;
+  height: 80vh;
 }
 
 /* Sidebar Styles */
 .graph-sidebar {
-  width: 250px;
+  width: 300px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  padding: 10px;
+  padding: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  max-height: 80vh;
+  height: 100%;
   overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .sidebar-section {
@@ -394,6 +397,15 @@
   text-align: center;
   color: #666;
   font-style: italic;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+.no-results p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 /* Node Details Styles */
@@ -488,16 +500,20 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .graph-canvas-container {
   position: relative;
   width: 100%;
-  height: 600px;
+  flex: 1;
   border: 2px solid #e0e0e0;
   border-radius: 10px;
   overflow: hidden;
   background: #fafafa;
+  min-height: 400px;
 }
 
 .graph-canvas {
@@ -652,15 +668,25 @@
 @media (max-width: 1200px) {
   .graph-container {
     flex-direction: column;
+    height: auto;
+    margin: 0 10px;
   }
   
   .graph-sidebar {
     width: 100%;
-    max-height: none;
+    height: auto;
+    max-height: 400px;
   }
   
   .graph-main {
     width: 100%;
+    height: 600px;
+  }
+  
+  .right-sidebar {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
   }
 }
 
@@ -756,12 +782,13 @@
   width: 300px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  padding: 10px;
+  padding: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
-  max-height: 80vh;
+  height: 100%;
   overflow-y: auto;
   animation: slideInRight 0.3s ease-out;
+  flex-shrink: 0;
 }
 
 /* Node Details Card - Right Side */
@@ -1043,6 +1070,18 @@
   transform: translateX(2px);
 }
 
+.clickable-result {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clickable-result:hover {
+  background: #e3f2fd !important;
+  border-color: #667eea !important;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
 .result-preview-icon {
   color: #667eea;
   flex-shrink: 0;
@@ -1066,4 +1105,58 @@
   font-size: 0.75rem;
   color: #666;
   text-transform: capitalize;
+}
+
+.result-preview-link {
+  margin-top: 4px;
+}
+
+.external-link {
+  font-size: 0.7rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(102, 126, 234, 0.1);
+  transition: all 0.2s ease;
+}
+
+.external-link:hover {
+  background: rgba(102, 126, 234, 0.2);
+  color: #5a6fd8;
+  text-decoration: none;
+  transform: translateX(2px);
+}
+
+.view-all-results {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+.view-all-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.view-all-btn:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
