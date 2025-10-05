@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 import networkx as nx
-from knowledge_graph import NASAKnowledgeGraph
+from scripts.build_knowledge_graph import NASAKnowledgeGraph
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -28,7 +28,7 @@ def load_knowledge_graph():
     """Load the knowledge graph from JSON file"""
     global kg
     
-    kg_file = Path("../data/knowledge_graph/knowledge_graph.json")
+    kg_file = Path("./data/knowledge_graph/knowledge_graph.json")
     if not kg_file.exists():
         logger.error("Knowledge graph not found. Please run knowledge_graph.py first.")
         return False
@@ -42,7 +42,7 @@ def load_knowledge_graph():
         
         # Add nodes
         for node_data in graph_data['nodes']:
-            from knowledge_graph import GraphNode
+            from scripts.build_knowledge_graph import GraphNode
             node = GraphNode(
                 id=node_data['id'],
                 label=node_data['label'],
@@ -54,7 +54,7 @@ def load_knowledge_graph():
         
         # Add edges
         for edge_data in graph_data['edges']:
-            from knowledge_graph import GraphEdge
+            from scripts.build_knowledge_graph import GraphEdge
             edge = GraphEdge(
                 source=edge_data['source'],
                 target=edge_data['target'],
@@ -301,7 +301,7 @@ def get_graph_visualization():
     layout = request.args.get('layout', 'spring')
     
     try:
-        output_path = f"../data/knowledge_graph/graph_visualization_{max_nodes}_{layout}.png"
+        output_path = f"./data/knowledge_graph/graph_visualization_{max_nodes}_{layout}.png"
         kg.visualize_graph(output_path, max_nodes, layout)
         
         return send_file(output_path, mimetype='image/png')
@@ -413,8 +413,8 @@ def export_graph():
         return jsonify({'error': 'Knowledge graph not loaded'}), 500
     
     try:
-        kg.export_to_json("../data/knowledge_graph/exported_knowledge_graph.json")
-        return send_file("../data/knowledge_graph/exported_knowledge_graph.json", 
+        kg.export_to_json("./data/knowledge_graph/exported_knowledge_graph.json")
+        return send_file("./data/knowledge_graph/exported_knowledge_graph.json", 
                         mimetype='application/json',
                         as_attachment=True,
                         download_name='nasa_knowledge_graph.json')

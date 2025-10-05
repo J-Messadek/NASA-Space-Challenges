@@ -488,7 +488,7 @@ def main():
         csv_path=csv_path,
         output_path=output_path,
         start_index=start_index,
-        max_publications=2,  # Remove this line to process all publications
+        max_publications=None,  # Remove this line to process all publications
     )
 
     print(f"Scraping complete! Processed {len(results)} publications")

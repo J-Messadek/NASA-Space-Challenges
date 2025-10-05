@@ -15,4 +15,4 @@ GOOGLE_AI_API_KEY = os.getenv("GOOGLE_AI_API_KEY")
 
 # File paths
 CSV_PATH = "../data/SB_publications-main/SB_publication_PMC.csv"
-OUTPUT_PATH = "../data/nasa_space_biology_publications.json"
+OUTPUT_PATH = "../data/scraped_publications.json"
