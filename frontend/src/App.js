@@ -87,9 +87,12 @@ function App() {
 
     // Year filter
     if (yearFilter) {
-      filtered = filtered.filter(pub => 
-        pub.publication_date && pub.publication_date.includes(yearFilter)
-      );
+      filtered = filtered.filter(pub => {
+        const date = pub.publication_date;
+        if (!date) return false;
+        const year = date.split(' ')[0]; // Extract year from "2025 Mar 27" format
+        return year === yearFilter;
+      });
     }
 
     // Author filter
@@ -106,7 +109,12 @@ function App() {
   // Get unique values for filter options
   const themes = [...new Set(publications.map(pub => pub.theme).filter(Boolean))].sort();
   const journals = [...new Set(publications.map(pub => pub.journal).filter(Boolean))].sort();
-  const years = [...new Set(publications.map(pub => pub.publication_date ? pub.publication_date.split('-')[0] : null).filter(Boolean))].sort((a, b) => b - a);
+  const years = [...new Set(publications.map(pub => {
+    const date = pub.publication_date;
+    if (!date) return null;
+    const year = date.split(' ')[0]; // Split by space, get first part
+    return /^\d{4}$/.test(year) ? year : null; // Only valid 4-digit years
+  }).filter(Boolean))].sort((a, b) => b - a);
   const authors = [...new Set(publications.flatMap(pub => pub.authors).filter(Boolean))].sort();
 
   const handleSearchChange = (e) => {
@@ -259,7 +267,7 @@ function App() {
                   className="filter-select"
                 >
                   <option value="">All Authors</option>
-                  {authors.slice(0, 50).map(author => (
+                  {authors.map(author => (
                     <option key={author} value={author}>{author}</option>
                   ))}
                 </select>
