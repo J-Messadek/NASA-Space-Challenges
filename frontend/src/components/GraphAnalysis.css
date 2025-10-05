@@ -409,7 +409,6 @@
 
 /* Search Analysis */
 .search-container {
-  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -431,7 +430,7 @@
   width: 100%;
   padding: 15px 15px 15px 50px;
   border: 2px solid #e0e0e0;
-  border-radius: 25px;
+  /* border-radius: 25px; */
   font-size: 1rem;
   transition: border-color 0.3s ease;
 }

@@ -213,67 +213,71 @@ function App() {
           <>
             {/* Search and Filter Section */}
             <section className="search-section">
+              {/* Search Bar - Full Width */}
               <div className="search-container">
-                <div style={{ position: 'relative', flex: 1, minWidth: '300px' }}>
-                  <Search size={20} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                <div className="search-input-container">
+                  <Search size={20} className="search-icon" />
                   <input
                     type="text"
                     placeholder="Search publications by title, authors, keywords, or content..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="search-input"
-                    style={{ paddingLeft: '45px' }}
                   />
                 </div>
               </div>
               
-              <div className="filter-container">
-                <select
-                  value={themeFilter}
-                  onChange={handleThemeFilterChange}
-                  className="filter-select"
-                >
-                  <option value="">All Themes</option>
-                  {themes.map(theme => (
-                    <option key={theme} value={theme}>{theme}</option>
-                  ))}
-                </select>
-                
-                <select
-                  value={journalFilter}
-                  onChange={handleJournalFilterChange}
-                  className="filter-select"
-                >
-                  <option value="">All Journals</option>
-                  {journals.map(journal => (
-                    <option key={journal} value={journal}>{journal}</option>
-                  ))}
-                </select>
+              {/* Filters Row */}
+              <div className="filters-row">
+                <div className="filter-container">
+                  <select
+                    value={themeFilter}
+                    onChange={handleThemeFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="">All Themes</option>
+                    {themes.map(theme => (
+                      <option key={theme} value={theme}>{theme}</option>
+                    ))}
+                  </select>
+                  
+                  <select
+                    value={journalFilter}
+                    onChange={handleJournalFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="">All Journals</option>
+                    {journals.map(journal => (
+                      <option key={journal} value={journal}>{journal}</option>
+                    ))}
+                  </select>
 
-                <select
-                  value={yearFilter}
-                  onChange={handleYearFilterChange}
-                  className="filter-select"
-                >
-                  <option value="">All Years</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>{year}</option>
-                  ))}
-                </select>
+                  <select
+                    value={yearFilter}
+                    onChange={handleYearFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="">All Years</option>
+                    {years.map(year => (
+                      <option key={year} value={year}>{year}</option>
+                    ))}
+                  </select>
 
-                <select
-                  value={authorFilter}
-                  onChange={handleAuthorFilterChange}
-                  className="filter-select"
-                >
-                  <option value="">All Authors</option>
-                  {authors.map(author => (
-                    <option key={author} value={author}>{author}</option>
-                  ))}
-                </select>
+                  <select
+                    value={authorFilter}
+                    onChange={handleAuthorFilterChange}
+                    className="filter-select"
+                  >
+                    <option value="">All Authors</option>
+                    {authors.map(author => (
+                      <option key={author} value={author}>{author}</option>
+                    ))}
+                  </select>
+                </div>
                 
+                {/* Clear Button - Bottom Right */}
                 {(searchTerm || themeFilter || journalFilter || yearFilter || authorFilter) && (
-                  <button onClick={clearFilters} className="btn btn-secondary">
+                  <button onClick={clearFilters} className="btn btn-secondary clear-filters-btn">
                     Clear Filters
                   </button>
                 )}
