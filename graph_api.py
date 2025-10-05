@@ -6,12 +6,19 @@ Provides REST API endpoints for graph queries and visualization
 
 import json
 import logging
+import os
+import dotenv
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Optional
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 import networkx as nx
 from scripts.build_knowledge_graph import NASAKnowledgeGraph
+
+# Import semantic search functionality
+from scripts.simple_semantic_search import load_embeddings, semantic_search
+
+dotenv.load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -22,6 +29,10 @@ CORS(app)  # Enable CORS for frontend integration
 
 # Global knowledge graph instance
 kg: Optional[NASAKnowledgeGraph] = None
+
+# Global semantic search data
+semantic_publications = []
+semantic_embeddings = []
 
 
 def load_knowledge_graph():
@@ -70,6 +81,24 @@ def load_knowledge_graph():
         
     except Exception as e:
         logger.error(f"Error loading knowledge graph: {e}")
+        return False
+
+
+def load_semantic_search_data():
+    """Load semantic search data (publications and embeddings)"""
+    global semantic_publications, semantic_embeddings
+    
+    embeddings_file = Path("./embeddings.json")
+    if not embeddings_file.exists():
+        logger.warning("Semantic search embeddings not found. Semantic search will be disabled.")
+        return False
+    
+    try:
+        semantic_publications, semantic_embeddings = load_embeddings(str(embeddings_file))
+        logger.info(f"Loaded {len(semantic_publications)} publications with embeddings for semantic search")
+        return True
+    except Exception as e:
+        logger.error(f"Error loading semantic search data: {e}")
         return False
 
 
@@ -462,14 +491,64 @@ def export_graph():
         return jsonify({'error': 'Failed to export graph'}), 500
 
 
+@app.route('/api/search/semantic', methods=['POST'])
+def semantic_search_endpoint():
+    """Semantic search endpoint for publications - called when keyword search fails"""
+    if not semantic_publications or not semantic_embeddings:
+        return jsonify({'error': 'Semantic search not available'}), 503
+    
+    try:
+        data = request.get_json()
+        if not data or 'query' not in data:
+            return jsonify({'error': 'Query parameter is required'}), 400
+        
+        query = data['query']
+        limit = data.get('limit', 20)
+        
+        # Get API key from environment
+        api_key = dotenv.get_key(".env", "GOOGLE_AI_API_KEY")
+        if not api_key:
+            return jsonify({'error': 'Google AI API key not configured'}), 500
+        
+        # Perform semantic search
+        results = semantic_search(
+            query, 
+            semantic_publications, 
+            semantic_embeddings, 
+            api_key, 
+            limit
+        )
+        
+        # Filter results to only include those with similarity score >= 0.80 (80%)
+        filtered_results = [
+            result for result in results 
+            if result.get('similarity_score', 0) >= 0.80
+        ]
+        
+        return jsonify({
+            'success': True,
+            'query': query,
+            'results': filtered_results,
+            'total_found': len(filtered_results),
+            'search_type': 'semantic',
+            'min_similarity_threshold': 0.80
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in semantic search: {e}")
+        return jsonify({'error': 'Semantic search failed'}), 500
+
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
         'graph_loaded': kg is not None,
+        'semantic_search_loaded': len(semantic_publications) > 0,
         'nodes': kg.graph.number_of_nodes() if kg else 0,
-        'edges': kg.graph.number_of_edges() if kg else 0
+        'edges': kg.graph.number_of_edges() if kg else 0,
+        'semantic_publications': len(semantic_publications)
     })
 
 
@@ -494,6 +573,9 @@ def main():
     
     logger.info("Knowledge graph loaded successfully")
     logger.info(f"Graph contains {kg.graph.number_of_nodes()} nodes and {kg.graph.number_of_edges()} edges")
+    
+    # Load semantic search data
+    load_semantic_search_data()
     
     # Start Flask server
     app.run(host='0.0.0.0', port=5000, debug=True)

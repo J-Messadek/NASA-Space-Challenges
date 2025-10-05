@@ -13,6 +13,8 @@ function App() {
   const [journalFilter, setJournalFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
   const [authorFilter, setAuthorFilter] = useState('');
+  const [searchType, setSearchType] = useState('keyword'); // 'keyword' or 'semantic'
+  const [semanticSearching, setSemanticSearching] = useState(false);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,6 +71,14 @@ function App() {
         pub.authors.some(author => author.toLowerCase().includes(searchLower)) ||
         pub.keywords.some(keyword => keyword.toLowerCase().includes(searchLower))
       );
+      
+      // If no keyword results found, try semantic search
+      if (filtered.length === 0) {
+        performSemanticSearch(searchTerm);
+        return; // Don't set filteredPublications yet, wait for semantic search
+      } else {
+        setSearchType('keyword');
+      }
     }
 
     // Theme filter
@@ -143,6 +153,8 @@ function App() {
     setJournalFilter('');
     setYearFilter('');
     setAuthorFilter('');
+    setSearchType('keyword');
+    setSemanticSearching(false);
   };
 
   // Pagination calculations
@@ -156,6 +168,47 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Semantic search function
+  const performSemanticSearch = async (query) => {
+    if (!query.trim()) return;
+    
+    setSemanticSearching(true);
+    setSearchType('semantic');
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/search/semantic', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query,
+          limit: 50
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.results.length > 0) {
+          setFilteredPublications(data.results);
+          setSearchType('semantic');
+        } else {
+          setFilteredPublications([]);
+          setSearchType('none');
+        }
+      } else {
+        console.error('Semantic search failed:', response.statusText);
+        setFilteredPublications([]);
+        setSearchType('none');
+      }
+    } catch (error) {
+      console.error('Error performing semantic search:', error);
+      setFilteredPublications([]);
+      setSearchType('none');
+    } finally {
+      setSemanticSearching(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -223,8 +276,22 @@ function App() {
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="search-input"
+                    disabled={semanticSearching}
                   />
+                  {semanticSearching && (
+                    <div className="search-loading">
+                      <div className="spinner"></div>
+                      <span>Searching semantically...</span>
+                    </div>
+                  )}
                 </div>
+                {searchTerm && (
+                  <div className="search-type-indicator">
+                    {searchType === 'keyword' && <span className="search-type keyword">Keyword Search</span>}
+                    {searchType === 'semantic' && <span className="search-type semantic">Semantic Search</span>}
+                    {searchType === 'none' && <span className="search-type none">No Results</span>}
+                  </div>
+                )}
               </div>
               
               {/* Filters Row */}
