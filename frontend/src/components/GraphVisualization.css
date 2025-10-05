@@ -198,7 +198,7 @@
 
 .section-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: white !important;
   padding: 8px 12px;
   cursor: pointer;
   display: flex;
@@ -215,6 +215,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
+  color: white !important;
 }
 
 .section-content {
@@ -817,7 +818,7 @@
   align-items: center;
   padding: 15px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: white !important;
   position: relative;
 }
 
@@ -838,6 +839,7 @@
   font-size: 18px;
   font-weight: 600;
   line-height: 1.2;
+  color: white !important;
 }
 
 .node-type {
@@ -845,6 +847,7 @@
   opacity: 0.8;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  color: white !important;
 }
 
 .close-btn {
