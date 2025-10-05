@@ -13,7 +13,6 @@ function App() {
   const [journalFilter, setJournalFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
   const [authorFilter, setAuthorFilter] = useState('');
-  const [searchType, setSearchType] = useState('keyword'); // 'keyword' or 'semantic'
   const [semanticSearching, setSemanticSearching] = useState(false);
   
   // Pagination state
@@ -58,29 +57,9 @@ function App() {
     loadPublications();
   }, []);
 
-  // Filter publications based on search and filters
+  // Filter publications based on filters only (search is handled by button click)
   useEffect(() => {
     let filtered = publications;
-
-    // Search filter
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(pub => 
-        pub.title.toLowerCase().includes(searchLower) ||
-        pub.summary.toLowerCase().includes(searchLower) ||
-        pub.impact.toLowerCase().includes(searchLower) ||
-        pub.authors.some(author => author.toLowerCase().includes(searchLower)) ||
-        pub.keywords.some(keyword => keyword.toLowerCase().includes(searchLower))
-      );
-      
-      // If no keyword results found, try semantic search
-      if (filtered.length === 0) {
-        performSemanticSearch(searchTerm);
-        return; // Don't set filteredPublications yet, wait for semantic search
-      } else {
-        setSearchType('keyword');
-      }
-    }
 
     // Theme filter
     if (themeFilter) {
@@ -115,7 +94,7 @@ function App() {
 
     setFilteredPublications(filtered);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [publications, searchTerm, themeFilter, journalFilter, yearFilter, authorFilter]);
+  }, [publications, themeFilter, journalFilter, yearFilter, authorFilter]);
 
   // Get unique values for filter options
   const themes = [...new Set(publications.map(pub => pub.theme).filter(Boolean))].sort();
@@ -130,6 +109,29 @@ function App() {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    
+    // Perform keyword search first
+    let filtered = publications;
+    const searchLower = searchTerm.toLowerCase();
+    filtered = filtered.filter(pub => 
+      pub.title.toLowerCase().includes(searchLower) ||
+      pub.summary.toLowerCase().includes(searchLower) ||
+      pub.impact.toLowerCase().includes(searchLower) ||
+      pub.authors.some(author => author.toLowerCase().includes(searchLower)) ||
+      pub.keywords.some(keyword => keyword.toLowerCase().includes(searchLower))
+    );
+    
+    if (filtered.length === 0) {
+      // If no keyword results, try semantic search
+      performSemanticSearch(searchTerm);
+    } else {
+      setFilteredPublications(filtered);
+      setCurrentPage(1);
+    }
   };
 
   const handleThemeFilterChange = (e) => {
@@ -154,8 +156,10 @@ function App() {
     setJournalFilter('');
     setYearFilter('');
     setAuthorFilter('');
-    setSearchType('keyword');
     setSemanticSearching(false);
+    // Reset to show all publications
+    setFilteredPublications(publications);
+    setCurrentPage(1);
   };
 
   // Pagination calculations
@@ -174,10 +178,8 @@ function App() {
     if (!query.trim()) return;
     
     setSemanticSearching(true);
-    setSearchType('semantic');
     
     try {
-      console.log(apiUrl, 888888888888888);
       const response = await fetch(`${apiUrl}/api/search/semantic`, {
         method: 'POST',
         headers: {
@@ -193,20 +195,16 @@ function App() {
         const data = await response.json();
         if (data.success && data.results.length > 0) {
           setFilteredPublications(data.results);
-          setSearchType('semantic');
         } else {
           setFilteredPublications([]);
-          setSearchType('none');
         }
       } else {
         console.error('Semantic search failed:', response.statusText);
         setFilteredPublications([]);
-        setSearchType('none');
       }
     } catch (error) {
       console.error('Error performing semantic search:', error);
       setFilteredPublications([]);
-      setSearchType('none');
     } finally {
       setSemanticSearching(false);
     }
@@ -279,21 +277,24 @@ function App() {
                     onChange={handleSearchChange}
                     className="search-input"
                     disabled={semanticSearching}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSearch();
+                      }
+                    }}
                   />
-                  {semanticSearching && (
-                    <div className="search-loading">
+                  <button 
+                    className="search-button"
+                    onClick={handleSearch}
+                    disabled={semanticSearching || !searchTerm.trim()}
+                  >
+                    {semanticSearching ? (
                       <div className="spinner"></div>
-                      <span>Searching semantically...</span>
-                    </div>
-                  )}
+                    ) : (
+                      <Search size={16} />
+                    )}
+                  </button>
                 </div>
-                {searchTerm && (
-                  <div className="search-type-indicator">
-                    {searchType === 'keyword' && <span className="search-type keyword">Keyword Search</span>}
-                    {searchType === 'semantic' && <span className="search-type semantic">Semantic Search</span>}
-                    {searchType === 'none' && <span className="search-type none">No Results</span>}
-                  </div>
-                )}
               </div>
               
               {/* Filters Row */}
