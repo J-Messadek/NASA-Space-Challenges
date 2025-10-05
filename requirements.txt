@@ -9,6 +9,15 @@ playwright>=1.40.0      # For web scraping
 google-generativeai>=0.3.0  # For Gemini AI
 python-dotenv>=1.0.0    # For environment variables
 
+# Graph and visualization dependencies
+networkx>=3.0      # For graph data structures and algorithms
+matplotlib>=3.7.0  # For graph visualization
+numpy>=1.24.0      # For numerical operations
+
+# API dependencies
+flask>=2.3.0       # For REST API server
+flask-cors>=4.0.0  # For CORS support
+
 # Development dependencies
 watchdog>=2.1.0  # For auto-reloading during development
 black>=22.0.0    # Code formatter (like Prettier for Python)

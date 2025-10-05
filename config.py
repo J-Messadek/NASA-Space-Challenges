@@ -14,5 +14,5 @@ load_dotenv()
 GOOGLE_AI_API_KEY = os.getenv("GOOGLE_AI_API_KEY")
 
 # File paths
-CSV_PATH = "SB_publications-main/SB_publication_PMC.csv"
-OUTPUT_PATH = "nasa_space_biology_publications.json"
+CSV_PATH = "../data/SB_publications-main/SB_publication_PMC.csv"
+OUTPUT_PATH = "../data/nasa_space_biology_publications.json"

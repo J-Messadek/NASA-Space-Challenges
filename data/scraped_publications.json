@@ -1,0 +1,86 @@
+[
+  {
+    "index": 0,
+    "title": "Mice in Bion-M 1 Space Mission: Training and Selection",
+    "authors": [
+      "Alexander Andreev-Andrievskiy",
+      "Anfisa Popova",
+      "Richard Boyle",
+      "Jeffrey Alberts",
+      "Boris Shenkman",
+      "Olga Vinogradova",
+      "Oleg Dolgov",
+      "Konstantin Anokhin",
+      "Darya Tsvirkun",
+      "Pavel Soldatov",
+      "Tatyana Nemirovskaya",
+      "Eugeniy Ilyin",
+      "Vladimir Sychev"
+    ],
+    "abstract": "After a 16-year hiatus, Russia has resumed its program of biomedical research in space, with the successful 30-day flight of the Bion-M 1 biosatellite (April 19–May 19, 2013). The principal species for biomedical research in this project was the mouse. This paper presents an overview of the scientific goals, the experimental design and the mouse training/selection program. The aim of mice experiments in the Bion-M 1 project was to elucidate cellular and molecular mechanisms, underlying the adaptation of key physiological systems to long-term exposure in microgravity. The studies with mice combined in vivo measurements, both in flight and post-flight (including continuous blood pressure measurement), with extensive in vitro studies carried out shortly after return of the mice and in the end of recovery study. Male C57/BL6 mice group housed in space habitats were flown aboard the Bion-M 1 biosatellite, or remained on ground in the control experiment that replicated environmental and housing conditions in the spacecraft. Vivarium control groups were used to account for housing effects and possible seasonal differences. Mice training included the co-adaptation in housing groups and mice adaptation to paste food diet. The measures taken to co-adapt aggressive male mice in housing groups and the peculiarities of “space” paste food are described. The training program for mice designated for in vivo studies was broader and included behavioral/functional test battery and continuous behavioral measurements in the home-cage. The results of the preliminary tests were used for the selection of homogenous groups. After the flight, mice were in good condition for biomedical studies and displayed signs of pronounced disadaptation to Earth's gravity. The outcomes of the training program for the mice welfare are discussed. We conclude that our training program was effective and that male mice can be successfully employed in space biomedical research.",
+    "headings": [
+      "Introduction",
+      "Overview of the Bion-m 1 mission",
+      "Materials and Methods",
+      "Results and Discussion",
+      "General Outcomes"
+    ],
+    "summary": "This paper outlines the scientific goals, experimental design, and the mouse training and selection program for Russia's Bion-M 1 biosatellite mission, which aimed to elucidate cellular and molecular mechanisms of physiological adaptation to 30-day microgravity exposure. The described training program, including group co-adaptation and specific dietary adjustments, proved effective in preparing male C57/BL6 mice for the mission. Post-flight, mice were in suitable condition for biomedical studies and exhibited clear signs of disadaptation to Earth's gravity, supporting the successful employment of male mice in space biomedical research.",
+    "impact": "This publication significantly advances the methodology for preparing and utilizing animal models, specifically mice, for long-duration space biomedical research, by detailing effective training and selection programs. It offers crucial practical insights for future space missions involving animal subjects, potentially enhancing experimental design for astronaut health studies and countermeasure development. The work represents a key step in the resumption of Russian biomedical space research and provides a robust foundation for future investigations into microgravity adaptation mechanisms.",
+    "theme": "Microgravity Effects on Physiological Systems",
+    "doi": "10.1371/journal.pone.0104830",
+    "publication_date": "2014 Aug 18",
+    "journal": "PLoS One.",
+    "keywords": [
+      "Microgravity",
+      "Bion-M 1",
+      "Mouse model",
+      "Space biology",
+      "Physiological adaptation",
+      "Animal welfare",
+      "Experimental design"
+    ],
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4136787/",
+    "original_title": "Mice in Bion-M 1 space mission: training and selection"
+  },
+  {
+    "index": 1,
+    "title": "Microgravity Induces Pelvic Bone Loss through Osteoclastic Activity, Osteocytic Osteolysis, and Osteoblastic Cell Cycle Inhibition by CDKN1a/p21",
+    "authors": [
+      "Elizabeth A Blaber",
+      "Natalya Dvorochkin",
+      "Chialing Lee",
+      "Joshua S Alwood",
+      "Rukhsana Yousuf",
+      "Piero Pianetta",
+      "Ruth K Globus",
+      "Brendan P Burns",
+      "Eduardo A C Almeida"
+    ],
+    "abstract": "Bone is a dynamically remodeled tissue that requires gravity-mediated mechanical stimulation for maintenance of mineral content and structure. Homeostasis in bone occurs through a balance in the activities and signaling of osteoclasts, osteoblasts, and osteocytes, as well as proliferation and differentiation of their stem cell progenitors. Microgravity and unloading are known to cause osteoclast-mediated bone resorption; however, we hypothesize that osteocytic osteolysis, and cell cycle arrest during osteogenesis may also contribute to bone loss in space. To test this possibility, we exposed 16-week-old female C57BL/6J mice (n = 8) to microgravity for 15-days on the STS-131 space shuttle mission. Analysis of the pelvis by µCT shows decreases in bone volume fraction (BV/TV) of 6.29%, and bone thickness of 11.91%. TRAP-positive osteoclast-covered trabecular bone surfaces also increased in microgravity by 170% (p = 0.004), indicating osteoclastic bone degeneration. High-resolution X-ray nanoCT studies revealed signs of lacunar osteolysis, including increases in cross-sectional area (+17%, p = 0.022), perimeter (+14%, p = 0.008), and canalicular diameter (+6%, p = 0.037). Expression of matrix metalloproteinases (MMP) 1, 3, and 10 in bone, as measured by RT-qPCR, was also up-regulated in microgravity (+12.94, +2.98 and +16.85 fold respectively, p<0.01), with MMP10 localized to osteocytes, and consistent with induction of osteocytic osteolysis. Furthermore, expression of CDKN1a/p21 in bone increased 3.31 fold (p<0.01), and was localized to osteoblasts, possibly inhibiting the cell cycle during tissue regeneration as well as conferring apoptosis resistance to these cells. Finally the apoptosis inducer Trp53 was down-regulated by −1.54 fold (p<0.01), possibly associated with the quiescent survival-promoting function of CDKN1a/p21. In conclusion, our findings identify the pelvic and femoral region of the mouse skeleton as an active site of rapid bone loss in microgravity, and indicate that this loss is not limited to osteoclastic degradation. Therefore, this study offers new evidence for microgravity-induced osteocytic osteolysis, and CDKN1a/p21-mediated osteogenic cell cycle arrest.",
+    "headings": [
+      "Introduction",
+      "Results",
+      "Discussion",
+      "Conclusions"
+    ],
+    "summary": "This study investigated whether osteocytic osteolysis and osteogenic cell cycle arrest contribute to microgravity-induced pelvic bone loss, in addition to known osteoclastic resorption. Using mice flown on STS-131, researchers found significant decreases in pelvic bone volume fraction (6.29%) and thickness (11.91%), alongside a 170% increase in osteoclast activity and evidence of lacunar osteolysis with increased lacunar cross-sectional area (+17%). Crucially, the study also identified a 3.31-fold increase in CDKN1a/p21, indicating osteoblastic cell cycle inhibition, thereby offering new evidence for multiple mechanisms driving rapid bone degeneration in microgravity.",
+    "impact": "This publication significantly advances the scientific understanding of microgravity-induced bone loss by identifying novel mechanisms beyond osteoclast activity, specifically osteocytic osteolysis and osteoblastic cell cycle inhibition via CDKN1a/p21. These findings are critical for astronaut health, informing the development of targeted countermeasures to preserve bone density during long-duration space missions. Furthermore, insights into these complex regulatory pathways could have broader implications for understanding and treating terrestrial bone disorders and directing future research into bone remodeling.",
+    "theme": "Microgravity Effects on Bone Health",
+    "doi": "10.1371/journal.pone.0061372",
+    "publication_date": "2013 Apr 18",
+    "journal": "PLoS One",
+    "keywords": [
+      "Microgravity",
+      "Bone loss",
+      "Osteocytic osteolysis",
+      "Osteoclast activity",
+      "Osteoblastic cell cycle",
+      "CDKN1a/p21",
+      "Space biology",
+      "Bone remodeling"
+    ],
+    "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3630201/",
+    "original_title": "Microgravity induces pelvic bone loss through osteoclastic activity, osteocytic osteolysis, and osteoblastic cell cycle inhibition by CDKN1a/p21"
+  }
+]
