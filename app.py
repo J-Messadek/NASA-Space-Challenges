@@ -18,11 +18,18 @@ from scripts.build_knowledge_graph import NASAKnowledgeGraph
 # Import semantic search functionality
 from scripts.simple_semantic_search import load_embeddings, semantic_search
 
-dotenv.load_dotenv()
+# Load environment variables from .env file in development
+# In production, environment variables are set by the platform
+if os.path.exists('.env'):
+    dotenv.load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
+# Debug environment variable loading
+api_key_available = bool(os.getenv("GOOGLE_AI_API_KEY"))
+logger.info(f"Google AI API key available: {api_key_available}")
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend integration
@@ -506,7 +513,7 @@ def semantic_search_endpoint():
         limit = data.get('limit', 20)
         
         # Get API key from environment
-        api_key = dotenv.get_key(".env", "GOOGLE_AI_API_KEY")
+        api_key = os.getenv("GOOGLE_AI_API_KEY")
         if not api_key:
             return jsonify({'error': 'Google AI API key not configured'}), 500
         
@@ -546,6 +553,7 @@ def health_check():
         'status': 'healthy',
         'graph_loaded': kg is not None,
         'semantic_search_loaded': len(semantic_publications) > 0,
+        'google_ai_api_key_available': bool(os.getenv("GOOGLE_AI_API_KEY")),
         'nodes': kg.graph.number_of_nodes() if kg else 0,
         'edges': kg.graph.number_of_edges() if kg else 0,
         'semantic_publications': len(semantic_publications)
