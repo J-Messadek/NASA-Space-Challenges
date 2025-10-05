@@ -27,6 +27,8 @@ A comprehensive platform for exploring NASA Space Biology publications featuring
 - **Real-time Updates**: Live search results and graph interactions
 - **Intuitive Navigation**: Easy switching between search, graph, and analytics
 - **Performance Optimized**: Fast loading and smooth interactions
+- **NASA Design System**: Official NASA Space Challenges branding with Overpass and Fira Sans typography
+- **Bioverses Branding**: Custom logo and favicon integration
 
 ## Quick Start
 

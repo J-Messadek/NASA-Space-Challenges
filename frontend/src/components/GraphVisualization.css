@@ -1,9 +1,8 @@
-/* Graph Visualization Styles */
+/* Graph Visualization Styles - NASA Theme */
 
 .graph-visualization {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 15px 10px;
+  padding: 10px 5px;
 }
 
 .graph-header {
@@ -17,7 +16,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -41,12 +40,12 @@
 }
 
 .header-search .search-icon {
-  color: #667eea;
+  color: #0042A6;
   margin-right: 16px;
 }
 
 .header-search .search-loading {
-  color: #667eea;
+  color: #0042A6;
   margin-right: 16px;
   font-size: 20px;
   animation: spin 1s linear infinite;
@@ -141,7 +140,7 @@
   font-size: 14px;
   flex-shrink: 0;
   background: #f0f0f0;
-  color: #667eea;
+  color: #0042A6;
 }
 
 .header-search-results .result-content {
@@ -178,10 +177,10 @@
 
 /* Sidebar Styles */
 .graph-sidebar {
-  width: 300px;
+  width: 320px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   height: 100%;
@@ -197,7 +196,7 @@
 }
 
 .section-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   color: white !important;
   padding: 8px 12px;
   cursor: pointer;
@@ -213,13 +212,13 @@
 
 .section-header h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: white !important;
 }
 
 .section-content {
-  padding: 12px;
+  padding: 15px;
   background: white;
 }
 
@@ -239,12 +238,13 @@
 .stat-label {
   font-weight: 500;
   color: #666;
+  font-size: 0.9rem;
 }
 
 .stat-value {
   font-weight: 700;
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .stat-breakdown {
@@ -282,11 +282,13 @@
   font-weight: 500;
   color: #666;
   text-transform: capitalize;
+  font-size: 0.9rem;
 }
 
 .type-count {
   font-weight: 700;
   color: #333;
+  font-size: 0.9rem;
 }
 
 .top-item {
@@ -340,7 +342,7 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #0042A6;
 }
 
 .search-results {
@@ -370,7 +372,7 @@
 }
 
 .result-icon {
-  color: #667eea;
+  color: #0042A6;
   flex-shrink: 0;
 }
 
@@ -780,7 +782,7 @@
 
 /* Right Sidebar */
 .right-sidebar {
-  width: 300px;
+  width: 350px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
   padding: 15px;
@@ -817,7 +819,7 @@
   display: flex;
   align-items: center;
   padding: 15px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   color: white !important;
   position: relative;
 }
@@ -898,7 +900,6 @@
 
 .stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
 
@@ -912,7 +913,7 @@
 
 .stat-label {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   color: #6c757d;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -921,7 +922,7 @@
 
 .stat-value {
   display: block;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: #2c3e50;
 }
@@ -936,7 +937,7 @@
   background: #f8f9fa;
   padding: 12px;
   border-radius: 6px;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid #0042A6;
   transition: all 0.2s ease;
 }
 
@@ -946,7 +947,7 @@
 }
 
 .collaborator-name, .publication-title {
-  font-size: 14px;
+  font-size: 20px;
   color: #2c3e50;
   line-height: 1.4;
 }
@@ -999,9 +1000,9 @@
 /* Search Summary Card Styles */
 .search-query-display {
   background: #f8f9fa;
-  padding: 12px;
+  padding: 15px;
   border-radius: 8px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #0042A6;
   margin-top: 8px;
 }
 
@@ -1039,16 +1040,17 @@
   font-weight: 500;
   color: #666;
   text-transform: capitalize;
+  font-size: 0.9rem;
 }
 
 .type-count {
   font-weight: 700;
   color: #333;
-  background: #667eea;
+  background: #0042A6;
   color: white;
   padding: 2px 8px;
   border-radius: 12px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
 .top-results-list {
@@ -1080,13 +1082,13 @@
 
 .clickable-result:hover {
   background: #e3f2fd !important;
-  border-color: #667eea !important;
+  border-color: #0042A6 !important;
   transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 66, 166, 0.15);
 }
 
 .result-preview-icon {
-  color: #667eea;
+  color: #0042A6;
   flex-shrink: 0;
 }
 
@@ -1116,7 +1118,7 @@
 
 .external-link {
   font-size: 0.7rem;
-  color: #667eea;
+  color: #0042A6;
   text-decoration: none;
   font-weight: 500;
   display: inline-flex;
@@ -1144,7 +1146,7 @@
 .view-all-btn {
   width: 100%;
   padding: 10px 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   color: white;
   border: none;
   border-radius: 8px;

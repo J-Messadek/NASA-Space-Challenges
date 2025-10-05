@@ -1,3 +1,65 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;700&family=Fira+Sans:wght@400;700;900&display=swap');
+
+/* NASA Space Challenges Design System */
+:root {
+  /* Official Colors */
+  --martian-red: #8E1100;
+  --rocket-red: #E43700;
+  --deep-blue: #07173F;
+  --electric-blue: #0042A6;
+  --neon-blue: #0960E1;
+  --blue-yonder: #2E96F5;
+  --neon-yellow: #EAFE07;
+  --white: #FFFFFF;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(45deg, var(--electric-blue), var(--deep-blue));
+  
+  /* Semantic Colors */
+  --primary-color: var(--electric-blue);
+  --secondary-color: var(--deep-blue);
+  --accent-color: var(--neon-yellow);
+  --text-color: var(--deep-blue);
+  --text-light: #6b7280;
+  --bg-color: var(--white);
+  --bg-light: #f8fafc;
+  --border-color: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(7, 23, 63, 0.1), 0 2px 4px -1px rgba(7, 23, 63, 0.06);
+  --shadow-lg: 0 20px 25px -5px rgba(7, 23, 63, 0.1), 0 10px 10px -5px rgba(7, 23, 63, 0.04);
+}
+
+/* Typography System */
+body {
+  font-family: 'Overpass', sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 150%;
+  color: var(--text-color);
+}
+
+h1 {
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 900;
+  font-size: 60px;
+  text-transform: uppercase;
+  color: var(--deep-blue);
+}
+
+h2 {
+  font-family: 'Overpass', sans-serif;
+  font-weight: 400;
+  font-size: 42px;
+  color: var(--deep-blue);
+}
+
+h3 {
+  font-family: 'Overpass', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--deep-blue);
+}
+
 /* Additional component-specific styles */
 .App {
   min-height: 100vh;
@@ -89,7 +151,7 @@
 
 /* Search button */
 .search-button {
-  background: #3b82f6;
+  background: #0042A6;
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -101,11 +163,13 @@
   transition: all 0.2s ease;
   min-width: 48px;
   height: 48px;
+  font-weight: 600;
 }
 
 .search-button:hover:not(:disabled) {
-  background: #2563eb;
+  background: #07173F;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 66, 166, 0.3);
 }
 
 .search-button:disabled {

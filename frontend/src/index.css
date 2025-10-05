@@ -1,3 +1,6 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;700&family=Fira+Sans:wght@400;700;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,14 +8,17 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 150%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   min-height: 100vh;
-  color: #333;
+  color: #07173F;
 }
 
 code {
@@ -21,7 +27,7 @@ code {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -30,11 +36,12 @@ code {
 .header {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(7, 23, 63, 0.1);
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 4px 6px -1px rgba(7, 23, 63, 0.1);
 }
 
 .header-content {
@@ -67,18 +74,18 @@ code {
 }
 
 .main-nav .nav-btn:hover {
-  background: rgba(102, 126, 234, 0.15) !important;
-  color: #667eea !important;
-  border-color: rgba(102, 126, 234, 0.3);
+  background: rgba(0, 66, 166, 0.15) !important;
+  color: #0042A6 !important;
+  border-color: rgba(0, 66, 166, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(7, 23, 63, 0.15);
 }
 
 .main-nav .nav-btn.active {
-  background: #667eea !important;
+  background: #0042A6 !important;
   color: white !important;
-  border-color: #667eea;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-color: #0042A6;
+  box-shadow: 0 4px 15px rgba(0, 66, 166, 0.3);
 }
 
 /* Ensure text is always visible in nav buttons */
@@ -97,20 +104,16 @@ code {
   align-items: center;
   gap: 0.5rem;
   font-size: 1.5rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-weight: 700;
+  font-family: 'Fira Sans', sans-serif;
+  color: #07173F;
 }
 
-.logo-icon {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+.logo-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
 }
 
 .stats {
@@ -167,8 +170,8 @@ code {
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #0042A6;
+  box-shadow: 0 0 0 3px rgba(0, 66, 166, 0.1);
 }
 
 .filters-row {
@@ -206,8 +209,8 @@ code {
 
 .filter-select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #0042A6;
+  box-shadow: 0 0 0 3px rgba(0, 66, 166, 0.1);
 }
 
 /* Publication List Styles */
@@ -250,7 +253,7 @@ code {
 
 .publication-title {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: bold;
   color: #2c3e50;
   line-height: 1.4;
   flex: 1;
@@ -260,12 +263,12 @@ code {
 }
 
 .publication-theme {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -312,7 +315,7 @@ code {
   background: #f8f9fa;
   padding: 1rem;
   border-radius: 12px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #0042A6;
   margin-bottom: 1rem;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -361,6 +364,19 @@ code {
   padding-top: 1rem;
 }
 
+.publication-actions .btn-primary {
+  background: linear-gradient(45deg, #0042A6, #07173F) !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 600;
+}
+
+.publication-actions .btn-primary:hover {
+  background: linear-gradient(45deg, #07173F, #0042A6) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 66, 166, 0.3);
+}
+
 .btn {
   padding: 0.5rem 1rem;
   border: none;
@@ -376,13 +392,14 @@ code {
 }
 
 .btn-primary {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #0042A6, #07173F);
   color: white;
+  font-weight: 600;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 66, 166, 0.3);
 }
 
 .btn-secondary {
@@ -434,10 +451,10 @@ code {
 }
 
 .pagination-btn:hover:not(:disabled) {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #0042A6;
+  color: #0042A6;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 66, 166, 0.2);
 }
 
 .pagination-btn:disabled {
@@ -458,21 +475,55 @@ code {
   padding: 4rem 2rem;
   color: white;
   font-size: 1.1rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.loading .container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
+  color: #07173F;
+}
+
+.loading h2 {
+  color: #07173F;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.loading p {
+  color: #6b7280;
+  font-size: 1rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  color: white;
+  color: #07173F;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  margin: 2rem;
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
 }
 
 .empty-state h3 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  color: #07173F;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 700;
 }
 
 .empty-state p {
-  opacity: 0.8;
+  color: #6b7280;
   font-size: 1.1rem;
 }
 

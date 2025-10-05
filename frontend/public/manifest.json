@@ -3,13 +3,18 @@
   "name": "NASA Space Biology Publications Explorer",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "bioverses_full.png",
+      "sizes": "500x500",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#667eea",
+  "theme_color": "#0042A6",
   "background_color": "#ffffff"
 }

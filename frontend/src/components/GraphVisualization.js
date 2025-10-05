@@ -612,7 +612,7 @@ const GraphVisualization = () => {
     return (
       <div className="graph-loading">
         <div className="loading-spinner"></div>
-        <h3>Loading Knowledge Graph...</h3>
+        <p>Loading Knowledge Graph...</p>
         <p>Preparing the NASA Space Biology research network</p>
       </div>
     );
@@ -1042,12 +1042,6 @@ const GraphVisualization = () => {
                   <h3>Search Results</h3>
                   <span className="node-type">Summary</span>
                 </div>
-                <button 
-                  className="close-btn"
-                  onClick={() => setSearchSummary(null)}
-                >
-                  ×
-                </button>
               </div>
               
               <div className="card-content">

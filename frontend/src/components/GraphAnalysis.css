@@ -1,9 +1,9 @@
-/* Graph Analysis Styles */
+/* Graph Analysis Styles - NASA Theme */
 
 .graph-analysis {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  background: linear-gradient(45deg, #0042A6, #07173F);
+  padding: 10px;
 }
 
 .analysis-header {
@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -44,10 +44,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 25px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white !important;
+  background: rgba(255, 255, 255, 0.95);
+  color: #07173F !important;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -56,33 +56,36 @@
 }
 
 .nav-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  color: white !important;
+  background: rgba(0, 66, 166, 0.15);
+  color: #0042A6 !important;
+  border-color: rgba(0, 66, 166, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(7, 23, 63, 0.2);
 }
 
 .nav-btn.active {
-  background: white;
-  color: #667eea !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: #0042A6;
+  color: white !important;
+  border-color: #0042A6;
+  box-shadow: 0 4px 15px rgba(0, 66, 166, 0.3);
 }
 
 /* Analysis Content */
 .analysis-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  padding: 30px;
+  padding: 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
 }
 
 .analysis-section h3 {
-  color: #333;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 25px;
+  color: #07173F;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -95,16 +98,18 @@
 }
 
 .overview-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid rgba(7, 23, 63, 0.1);
   transition: transform 0.2s ease;
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
 }
 
 .overview-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(7, 23, 63, 0.15);
 }
 
 .card-header {
@@ -112,12 +117,12 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 15px;
-  color: #667eea;
+  color: #0042A6;
 }
 
 .card-header h4 {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -135,14 +140,14 @@
 }
 
 .metric-value {
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #333;
+  color: #07173F;
   margin-bottom: 5px;
 }
 
 .metric-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: #666;
   font-weight: 500;
 }
@@ -154,9 +159,9 @@
 
 .node-types-breakdown h4 {
   color: #333;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -195,12 +200,13 @@
   font-weight: 600;
   color: #333;
   margin-bottom: 4px;
+  font-size: 0.9rem;
 }
 
 .breakdown-count {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #667eea;
+  color: #0042A6;
 }
 
 /* Authors Analysis */
@@ -211,17 +217,19 @@
 }
 
 .authors-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid rgba(7, 23, 63, 0.1);
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
 }
 
 .authors-card h4 {
-  color: #333;
-  font-size: 1.3rem;
+  color: #07173F;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 
@@ -285,17 +293,19 @@
 }
 
 .theme-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid rgba(7, 23, 63, 0.1);
   text-align: center;
   transition: transform 0.2s ease;
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
 }
 
 .theme-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(7, 23, 63, 0.15);
 }
 
 .theme-header {
@@ -309,7 +319,7 @@
 
 .theme-header h4 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: capitalize;
 }
@@ -321,9 +331,9 @@
 }
 
 .theme-count {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: #07173F;
   margin-bottom: 5px;
 }
 
@@ -341,15 +351,17 @@
 }
 
 .centrality-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 25px;
+  border: 1px solid rgba(7, 23, 63, 0.1);
+  box-shadow: 0 8px 32px rgba(7, 23, 63, 0.1);
 }
 
 .centrality-card h4 {
-  color: #333;
-  font-size: 1.3rem;
+  color: #07173F;
+  font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -580,7 +592,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .graph-analysis {
-    padding: 10px;
+    padding: 5px;
   }
   
   .analysis-header h2 {
@@ -602,7 +614,7 @@
   }
   
   .analysis-content {
-    padding: 20px;
+    padding: 15px;
   }
   
   .overview-grid {
@@ -635,7 +647,7 @@
   .authors-card,
   .theme-card,
   .centrality-card {
-    padding: 15px;
+    padding: 20px;
   }
   
   .metric-value {

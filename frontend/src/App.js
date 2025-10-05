@@ -228,7 +228,7 @@ function App() {
         <div className="container">
           <div className="header-content">
             <div className="logo">
-              <div className="logo-icon">🚀</div>
+              <img src="/bioverses_full.png" alt="Bioverses Logo" className="logo-image" />
               NASA Space Biology Publications
             </div>
             
@@ -358,8 +358,8 @@ function App() {
             <section className="publications-container">
               {filteredPublications.length === 0 ? (
                 <div className="empty-state">
-                  <h3>No publications found</h3>
-                  <p>Try adjusting your search terms or filters to find more results.</p>
+                  <h3>No Publications Found</h3>
+                  <p>Try adjusting your search terms or filters to discover more research publications.</p>
                 </div>
               ) : (
                 <>

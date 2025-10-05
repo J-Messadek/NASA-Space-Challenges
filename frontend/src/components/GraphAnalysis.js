@@ -72,7 +72,7 @@ const GraphAnalysis = () => {
     return (
       <div className="analysis-loading">
         <div className="loading-spinner"></div>
-        <h3>Loading Graph Analysis...</h3>
+        <p>Loading Graph Analysis...</p>
         <p>Analyzing the NASA Space Biology research network</p>
       </div>
     );
