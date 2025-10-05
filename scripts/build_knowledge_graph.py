@@ -585,7 +585,7 @@ class NASAKnowledgeGraph:
 def main():
     """Main function to build and analyze the knowledge graph"""
     # Load publication data
-    publications_file = "../nasa_space_biology_publications.json"
+    publications_file = "../data/scraped_publications.json"
     
     if not Path(publications_file).exists():
         logger.error(f"Publications file not found: {publications_file}")

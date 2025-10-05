@@ -13,6 +13,7 @@ const GraphVisualization = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchSummary, setSearchSummary] = useState(null);
   const [graphStats, setGraphStats] = useState(null);
   const [expandedSections, setExpandedSections] = useState({
     statistics: true,
@@ -51,13 +52,16 @@ const GraphVisualization = () => {
 
   const loadGraphData = async () => {
     try {
+      setLoading(true);
+      setError(null);
+      
       // Load actual graph data from the API - no fallback data
       const response = await fetch('http://localhost:5000/api/graph/export');
       if (response.ok) {
         const data = await response.json();
         
-        // Convert the real graph data to vis-network format
-        const nodes = data.nodes.slice(0, 100).map(node => ({
+        // Convert the real graph data to vis-network format - show ALL nodes and edges
+        const nodes = data.nodes.map(node => ({
           id: node.id,
           label: node.label.length > 25 ? node.label.substring(0, 25) + '...' : node.label,
           group: node.type,
@@ -65,7 +69,7 @@ const GraphVisualization = () => {
           value: node.weight || 1
         }));
         
-        const edges = data.edges.slice(0, 200).map(edge => ({
+        const edges = data.edges.map(edge => ({
           from: edge.source,
           to: edge.target,
           width: 1,
@@ -73,6 +77,7 @@ const GraphVisualization = () => {
         }));
         
         setGraphData({ nodes, edges });
+        console.log(`Loaded complete graph: ${nodes.length} nodes, ${edges.length} edges`);
       } else {
         // If API fails, show empty graph with error message
         setGraphData({ nodes: [], edges: [] });
@@ -82,6 +87,8 @@ const GraphVisualization = () => {
       console.error('Error loading graph data:', error);
       setGraphData({ nodes: [], edges: [] });
       setError('Error connecting to server');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -219,13 +226,13 @@ const GraphVisualization = () => {
       nodes: {
         shape: 'dot',
         scaling: {
-          min: 10,
-          max: 30,
+          min: 8,
+          max: 25,
           label: {
-            min: 8,
-            max: 30,
-            maxVisible: 30,
-            drawThreshold: 12
+            min: 6,
+            max: 20,
+            maxVisible: 50,
+            drawThreshold: 8
           },
           customScalingFunction: (min, max, total, value) => {
             if (max === min) return 0.5;
@@ -270,14 +277,14 @@ const GraphVisualization = () => {
       },
       physics: {
         enabled: true,
-        stabilization: { iterations: 100 },
+        stabilization: { iterations: 200 },
         barnesHut: {
-          gravitationalConstant: -2000,
-          centralGravity: 0.3,
-          springLength: 95,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0.1
+          gravitationalConstant: -3000,
+          centralGravity: 0.2,
+          springLength: 120,
+          springConstant: 0.03,
+          damping: 0.12,
+          avoidOverlap: 0.2
         }
       },
       interaction: {
@@ -332,6 +339,7 @@ const GraphVisualization = () => {
     if (!query.trim()) {
       setSearchResults([]);
       setShowSearchResults(false);
+      setSearchSummary(null);
       return;
     }
 
@@ -339,6 +347,7 @@ const GraphVisualization = () => {
     if (query.trim().length < 2) {
       setSearchResults([]);
       setShowSearchResults(false);
+      setSearchSummary(null);
       return;
     }
 
@@ -348,20 +357,60 @@ const GraphVisualization = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setSearchResults(data.data.results);
+        const results = data.data.results;
+        setSearchResults(results);
         setShowSearchResults(true);
+        
+        // Create search summary
+        const summary = createSearchSummary(query, results);
+        setSearchSummary(summary);
       } else {
         console.error('Search failed with status:', response.status);
         setSearchResults([]);
         setShowSearchResults(false);
+        setSearchSummary(null);
       }
     } catch (error) {
       console.error('Error searching graph:', error);
       setSearchResults([]);
       setShowSearchResults(false);
+      setSearchSummary(null);
     } finally {
       setIsSearching(false);
     }
+  };
+
+  const createSearchSummary = (query, results) => {
+    if (!results || results.length === 0) {
+      return {
+        query,
+        totalFound: 0,
+        typeBreakdown: {},
+        topResults: []
+      };
+    }
+
+    // Count by type
+    const typeBreakdown = results.reduce((acc, result) => {
+      acc[result.type] = (acc[result.type] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Get top 3 results for preview
+    const topResults = results.slice(0, 3).map(result => ({
+      id: result.id,
+      label: result.label,
+      type: result.type,
+      properties: result.properties
+    }));
+
+    return {
+      query,
+      totalFound: results.length,
+      typeBreakdown,
+      topResults,
+      hasMore: results.length >= 10 // API limit is 10
+    };
   };
 
   const handleSearchInputChange = (e) => {
@@ -574,6 +623,7 @@ const GraphVisualization = () => {
                   setSearchQuery('');
                   setSearchResults([]);
                   setShowSearchResults(false);
+                  setSearchSummary(null);
                 }}
               >
                 ×
@@ -931,6 +981,91 @@ const GraphVisualization = () => {
                           </div>
                         )}
                       </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Right Sidebar - Search Summary */}
+        {searchSummary && searchSummary.totalFound > 0 && (
+          <div className="right-sidebar">
+            <div className="node-details-card">
+              <div className="card-header">
+                <div className="node-icon">
+                  <Search size={18} />
+                </div>
+                <div className="node-title">
+                  <h3>Search Results</h3>
+                  <span className="node-type">Summary</span>
+                </div>
+                <button 
+                  className="close-btn"
+                  onClick={() => setSearchSummary(null)}
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="card-content">
+                <div className="detail-section">
+                  <h4>Search Query</h4>
+                  <div className="search-query-display">
+                    <span className="query-text">"{searchSummary.query}"</span>
+                  </div>
+                </div>
+
+                <div className="detail-section">
+                  <h4>Results Overview</h4>
+                  <div className="stats-grid">
+                    <div className="stat-item">
+                      <span className="stat-label">Total Found</span>
+                      <span className="stat-value">{searchSummary.totalFound}</span>
+                    </div>
+                    {searchSummary.hasMore && (
+                      <div className="stat-item">
+                        <span className="stat-label">Showing</span>
+                        <span className="stat-value">Top 10</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {Object.keys(searchSummary.typeBreakdown).length > 0 && (
+                  <div className="detail-section">
+                    <h4>Results by Type</h4>
+                    <div className="type-breakdown">
+                      {Object.entries(searchSummary.typeBreakdown).map(([type, count]) => (
+                        <div key={type} className="type-item">
+                          <div 
+                            className="type-color" 
+                            style={{ backgroundColor: getNodeTypeColor(type) }}
+                          ></div>
+                          <span className="type-name">{type.replace('_', ' ').toUpperCase()}</span>
+                          <span className="type-count">{count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {searchSummary.topResults.length > 0 && (
+                  <div className="detail-section">
+                    <h4>Top Results</h4>
+                    <div className="top-results-list">
+                      {searchSummary.topResults.map((result, index) => (
+                        <div key={result.id} className="result-preview-item">
+                          <div className="result-preview-icon">
+                            {getNodeTypeIcon(result.type)}
+                          </div>
+                          <div className="result-preview-content">
+                            <div className="result-preview-label">{result.label}</div>
+                            <div className="result-preview-type">{result.type}</div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}

@@ -45,6 +45,53 @@ code {
   gap: 1rem;
 }
 
+.main-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.main-nav .nav-btn {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #333 !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-nav .nav-btn:hover {
+  background: rgba(102, 126, 234, 0.15) !important;
+  color: #667eea !important;
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.main-nav .nav-btn.active {
+  background: #667eea !important;
+  color: white !important;
+  border-color: #667eea;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Ensure text is always visible in nav buttons */
+.main-nav .nav-btn,
+.main-nav .nav-btn * {
+  color: inherit !important;
+}
+
+.main-nav .nav-btn.active,
+.main-nav .nav-btn.active * {
+  color: white !important;
+}
+
 .logo {
   display: flex;
   align-items: center;

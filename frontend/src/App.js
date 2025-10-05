@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, ExternalLink, Users, Calendar, BookOpen, Target, Tag, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Filter, ExternalLink, Users, Calendar, BookOpen, Target, Tag, ChevronLeft, ChevronRight, Network, BarChart3 } from 'lucide-react';
+import GraphVisualization from './components/GraphVisualization';
+import GraphAnalysis from './components/GraphAnalysis';
 import './App.css';
 
 function App() {
@@ -15,6 +17,9 @@ function App() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(12);
+  
+  // Navigation state
+  const [activeView, setActiveView] = useState('publications'); // 'publications', 'graph', 'analysis'
 
   // Load publications data
   useEffect(() => {
@@ -165,127 +170,160 @@ function App() {
               <div className="logo-icon">🚀</div>
               NASA Space Biology Publications
             </div>
+            
+            {/* Navigation */}
+            <nav className="main-nav">
+              <button 
+                className={`nav-btn ${activeView === 'publications' ? 'active' : ''}`}
+                onClick={() => setActiveView('publications')}
+              >
+                <BookOpen size={16} />
+                Publications
+              </button>
+              <button 
+                className={`nav-btn ${activeView === 'graph' ? 'active' : ''}`}
+                onClick={() => setActiveView('graph')}
+              >
+                <Network size={16} />
+                Knowledge Graph
+              </button>
+              <button 
+                className={`nav-btn ${activeView === 'analysis' ? 'active' : ''}`}
+                onClick={() => setActiveView('analysis')}
+              >
+                <BarChart3 size={16} />
+                Analysis
+              </button>
+            </nav>
           </div>
         </div>
       </header>
 
       <div className="container">
-        {/* Search and Filter Section */}
-        <section className="search-section">
-          <div className="search-container">
-            <div style={{ position: 'relative', flex: 1, minWidth: '300px' }}>
-              <Search size={20} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
-              <input
-                type="text"
-                placeholder="Search publications by title, authors, keywords, or content..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="search-input"
-                style={{ paddingLeft: '45px' }}
-              />
-            </div>
-          </div>
-          
-          <div className="filter-container">
-            <select
-              value={themeFilter}
-              onChange={handleThemeFilterChange}
-              className="filter-select"
-            >
-              <option value="">All Themes</option>
-              {themes.map(theme => (
-                <option key={theme} value={theme}>{theme}</option>
-              ))}
-            </select>
-            
-            <select
-              value={journalFilter}
-              onChange={handleJournalFilterChange}
-              className="filter-select"
-            >
-              <option value="">All Journals</option>
-              {journals.map(journal => (
-                <option key={journal} value={journal}>{journal}</option>
-              ))}
-            </select>
-
-            <select
-              value={yearFilter}
-              onChange={handleYearFilterChange}
-              className="filter-select"
-            >
-              <option value="">All Years</option>
-              {years.map(year => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
-
-            <select
-              value={authorFilter}
-              onChange={handleAuthorFilterChange}
-              className="filter-select"
-            >
-              <option value="">All Authors</option>
-              {authors.slice(0, 50).map(author => (
-                <option key={author} value={author}>{author}</option>
-              ))}
-            </select>
-            
-            {(searchTerm || themeFilter || journalFilter || yearFilter || authorFilter) && (
-              <button onClick={clearFilters} className="btn btn-secondary">
-                Clear Filters
-              </button>
-            )}
-          </div>
-        </section>
-
-        {/* Publications List */}
-        <section className="publications-container">
-          {filteredPublications.length === 0 ? (
-            <div className="empty-state">
-              <h3>No publications found</h3>
-              <p>Try adjusting your search terms or filters to find more results.</p>
-            </div>
-          ) : (
-            <>
-              <div className="publications-grid">
-                {currentPublications.map((publication) => (
-                  <PublicationCard 
-                    key={publication.index} 
-                    publication={publication}
+        {/* Render different views based on activeView */}
+        {activeView === 'publications' && (
+          <>
+            {/* Search and Filter Section */}
+            <section className="search-section">
+              <div className="search-container">
+                <div style={{ position: 'relative', flex: 1, minWidth: '300px' }}>
+                  <Search size={20} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                  <input
+                    type="text"
+                    placeholder="Search publications by title, authors, keywords, or content..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="search-input"
+                    style={{ paddingLeft: '45px' }}
                   />
-                ))}
+                </div>
               </div>
               
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="pagination">
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="pagination-btn"
-                  >
-                    <ChevronLeft size={16} />
-                    Previous
+              <div className="filter-container">
+                <select
+                  value={themeFilter}
+                  onChange={handleThemeFilterChange}
+                  className="filter-select"
+                >
+                  <option value="">All Themes</option>
+                  {themes.map(theme => (
+                    <option key={theme} value={theme}>{theme}</option>
+                  ))}
+                </select>
+                
+                <select
+                  value={journalFilter}
+                  onChange={handleJournalFilterChange}
+                  className="filter-select"
+                >
+                  <option value="">All Journals</option>
+                  {journals.map(journal => (
+                    <option key={journal} value={journal}>{journal}</option>
+                  ))}
+                </select>
+
+                <select
+                  value={yearFilter}
+                  onChange={handleYearFilterChange}
+                  className="filter-select"
+                >
+                  <option value="">All Years</option>
+                  {years.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+
+                <select
+                  value={authorFilter}
+                  onChange={handleAuthorFilterChange}
+                  className="filter-select"
+                >
+                  <option value="">All Authors</option>
+                  {authors.slice(0, 50).map(author => (
+                    <option key={author} value={author}>{author}</option>
+                  ))}
+                </select>
+                
+                {(searchTerm || themeFilter || journalFilter || yearFilter || authorFilter) && (
+                  <button onClick={clearFilters} className="btn btn-secondary">
+                    Clear Filters
                   </button>
-                  
-                  <div className="pagination-info">
-                    Page {currentPage} of {totalPages} ({filteredPublications.length} total results)
+                )}
+              </div>
+            </section>
+
+            {/* Publications List */}
+            <section className="publications-container">
+              {filteredPublications.length === 0 ? (
+                <div className="empty-state">
+                  <h3>No publications found</h3>
+                  <p>Try adjusting your search terms or filters to find more results.</p>
+                </div>
+              ) : (
+                <>
+                  <div className="publications-grid">
+                    {currentPublications.map((publication) => (
+                      <PublicationCard 
+                        key={publication.index} 
+                        publication={publication}
+                      />
+                    ))}
                   </div>
                   
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="pagination-btn"
-                  >
-                    Next
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="pagination">
+                      <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="pagination-btn"
+                      >
+                        <ChevronLeft size={16} />
+                        Previous
+                      </button>
+                      
+                      <div className="pagination-info">
+                        Page {currentPage} of {totalPages} ({filteredPublications.length} total results)
+                      </div>
+                      
+                      <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="pagination-btn"
+                      >
+                        Next
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
-            </>
-          )}
-        </section>
+            </section>
+          </>
+        )}
+
+        {activeView === 'graph' && <GraphVisualization />}
+        {activeView === 'analysis' && <GraphAnalysis />}
       </div>
     </div>
   );
