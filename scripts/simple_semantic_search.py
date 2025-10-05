@@ -4,6 +4,7 @@ Simple semantic search - just one endpoint
 """
 
 import json
+import os
 import time
 from pathlib import Path
 from typing import Dict, List
@@ -161,7 +162,7 @@ def generate_embeddings_from_json(
 
 # Simple usage example
 if __name__ == "__main__":
-    api_key = dotenv.get_key("../.env", "GOOGLE_AI_API_KEY")
+    api_key = os.getenv("GOOGLE_AI_API_KEY")
     if not api_key:
         print("Set GOOGLE_AI_API_KEY environment variable")
         exit(1)
