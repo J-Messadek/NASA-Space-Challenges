@@ -393,7 +393,16 @@ class LLMScraper:
             f"Processing {len(df)} publications starting from index {start_index}"
         )
 
+
+
         results = []
+
+        # fetch the scraped publications
+        if os.path.exists(output_path):
+            with open(output_path, "r", encoding="utf-8") as f:
+                results = json.load(f)
+        else:
+            results = []
 
         try:
             for index, row in df.iterrows():
