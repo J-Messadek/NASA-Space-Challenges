@@ -162,7 +162,7 @@ def generate_embeddings_from_json(
 
 # Simple usage example
 if __name__ == "__main__":
-    api_key = os.getenv("GOOGLE_AI_API_KEY")
+    api_key = os.environ.get("GOOGLE_AI_API_KEY")
     if not api_key:
         print("Set GOOGLE_AI_API_KEY environment variable")
         exit(1)
