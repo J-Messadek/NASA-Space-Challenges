@@ -23,6 +23,8 @@ function App() {
   // Navigation state
   const [activeView, setActiveView] = useState('publications'); // 'publications', 'graph', 'analysis'
 
+  const apiUrl =  process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   // Load publications data
   useEffect(() => {
     const loadPublications = async () => {
@@ -32,7 +34,6 @@ function App() {
         const response = await fetch('/nasa_space_biology_publications.json');
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setPublications(data);
           setFilteredPublications(data);
         } else {
@@ -176,7 +177,7 @@ function App() {
     setSearchType('semantic');
     
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log(apiUrl, 888888888888888);
       const response = await fetch(`${apiUrl}/api/search/semantic`, {
         method: 'POST',
         headers: {

@@ -12,12 +12,13 @@ const GraphAnalysis = () => {
     loadAnalysisData();
   }, []);
 
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
   const loadAnalysisData = async () => {
     try {
       setLoading(true);
       
       // Load multiple analysis endpoints in parallel
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
       const [statsResponse, centralityResponse] = await Promise.all([
         fetch(`${apiUrl}/api/graph/statistics`),
         fetch(`${apiUrl}/api/graph/centrality`)
